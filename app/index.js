@@ -1,20 +1,17 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, FlatList } from "react-native";
 import car from "../assets/images/car.png";
+import menuOptions from "../assets/menuOptions";
+import MenuOption from "../components/homeScreen/MenuOption";
+import ControlOptions from "../components/homeScreen/ControlOptions";
+
 import { normalize } from "../utils/scales.js";
-import {
-  FontAwesome,
-  Entypo,
-  MaterialCommunityIcons,
-  FontAwesome5,
-  Ionicons,
-} from "@expo/vector-icons";
-import { useState } from "react";
-import { ScrollView } from "react-native-gesture-handler";
+
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function Page() {
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <StatusBar style="light" />
       <View style={styles.header}>
         <View>
@@ -33,56 +30,27 @@ export default function Page() {
         />
       </View>
       <Image source={car} style={styles.image} resizeMode="contain" />
-      {controlIcons()}
-    </ScrollView>
-  );
-}
 
-const controlIcons = () => {
-  const [lock, setLock] = useState(false);
-  const [fan, setFan] = useState(false);
-  const [bolt, setBolt] = useState(false);
-  const [baggage, setBaggage] = useState(false);
-  return (
-    <View style={styles.control}>
-      <Entypo
-        onPress={() => setLock(!lock)}
-        name="lock"
-        size={26}
-        style={lock === false ? styles.controlIcon : styles.controlIconActive}
-      />
-      <MaterialCommunityIcons
-        onPress={() => setFan(!fan)}
-        name="fan"
-        size={26}
-        style={fan === false ? styles.controlIcon : styles.controlIconActive}
-      />
-      <MaterialCommunityIcons
-        onPress={() => setBolt(!bolt)}
-        name="lightning-bolt"
-        size={26}
-        style={bolt === false ? styles.controlIcon : styles.controlIconActive}
-      />
-      <Ionicons
-        onPress={() => setBaggage(!baggage)}
-        name="car-sport-sharp"
-        size={26}
-        style={
-          baggage === false ? styles.controlIcon : styles.controlIconActive
-        }
+      <ControlOptions />
+
+      <FlatList
+        data={menuOptions}
+        showsVerticalScrollIndicator={false}
+        renderItem={MenuOption}
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingTop: 10,
     backgroundColor: "#161818",
   },
   header: {
-    padding: normalize(10),
+    padding: normalize(8),
     marginTop: normalize(30),
     flexDirection: "row",
     justifyContent: "space-between",
@@ -108,17 +76,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: normalize(220),
   },
-  control: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
-  controlIcon: { color: "gray" },
-  controlIconActive: {
-    color: "white",
-    textShadowColor: "#FFFFFFBB",
-    textShadowRadius: 14,
-    textShadowOffset: { width: 0, height: 0 },
-  },
+
   userCircle: {
     marginTop: normalize(8),
   },
